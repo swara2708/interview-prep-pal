@@ -14,7 +14,133 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      answers: {
+        Row: {
+          answer_text: string
+          created_at: string
+          feedback_json: Json | null
+          id: string
+          input_mode: string
+          question_id: string
+          score: number | null
+        }
+        Insert: {
+          answer_text: string
+          created_at?: string
+          feedback_json?: Json | null
+          id?: string
+          input_mode?: string
+          question_id: string
+          score?: number | null
+        }
+        Update: {
+          answer_text?: string
+          created_at?: string
+          feedback_json?: Json | null
+          id?: string
+          input_mode?: string
+          question_id?: string
+          score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: true
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          target_role: string | null
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id: string
+          target_role?: string | null
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          target_role?: string | null
+        }
+        Relationships: []
+      }
+      questions: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          order_index: number
+          question_text: string
+          session_id: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          order_index: number
+          question_text: string
+          session_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          order_index?: number
+          question_text?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "questions_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sessions: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          id: string
+          level: string
+          mode: string
+          overall_score: number | null
+          role: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          level: string
+          mode: string
+          overall_score?: number | null
+          role: string
+          user_id: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          level?: string
+          mode?: string
+          overall_score?: number | null
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
