@@ -1,9 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
+import { useCallback } from "react";
 import { Loader2 } from "lucide-react";
 
 import { ScoreRing } from "@/components/score-ring";
+import { useRealtimeSessions } from "@/hooks/use-realtime-session";
 import { listSessions } from "@/lib/interview.functions";
 import { CATEGORIES, asCategory, categoryLabel, categoryStyles } from "@/lib/interview-types";
 
