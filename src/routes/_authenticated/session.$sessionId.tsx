@@ -14,7 +14,10 @@ export const Route = createFileRoute("/_authenticated/session/$sessionId")({
   head: () => ({
     meta: [
       { title: "Interview session — InterviewAI" },
-      { name: "description", content: "Answer your AI-generated interview questions and get scored feedback." },
+      {
+        name: "description",
+        content: "Answer your AI-generated interview questions and get scored feedback.",
+      },
       { property: "og:title", content: "Interview session — InterviewAI" },
       {
         property: "og:description",

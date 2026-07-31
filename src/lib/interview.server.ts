@@ -25,10 +25,10 @@ const feedbackSchema = z.object({
 export async function generateQuestions(role: string, level: Level, mode: Mode) {
   const mix =
     mode === "technical"
-      ? "All questions must be category \"technical\"."
+      ? 'All questions must be category "technical".'
       : mode === "behavioral"
-        ? "Use categories \"behavioral\" and \"hr\" only."
-        : "Mix categories: roughly half \"technical\", the rest split between \"behavioral\" and \"hr\".";
+        ? 'Use categories "behavioral" and "hr" only.'
+        : 'Mix categories: roughly half "technical", the rest split between "behavioral" and "hr".';
 
   const result = await callJson(
     [

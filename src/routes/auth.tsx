@@ -9,9 +9,15 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in — InterviewAI" },
-      { name: "description", content: "Sign in or create your InterviewAI account to start practising." },
+      {
+        name: "description",
+        content: "Sign in or create your InterviewAI account to start practising.",
+      },
       { property: "og:title", content: "Sign in — InterviewAI" },
-      { property: "og:description", content: "Sign in or create your InterviewAI account to start practising." },
+      {
+        property: "og:description",
+        content: "Sign in or create your InterviewAI account to start practising.",
+      },
     ],
   }),
   component: AuthPage,
@@ -84,7 +90,9 @@ function AuthPage() {
           Interview<span className="text-primary">AI</span>
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          {mode === "signin" ? "Welcome back. Sign in to keep practising." : "Create an account to start practising."}
+          {mode === "signin"
+            ? "Welcome back. Sign in to keep practising."
+            : "Create an account to start practising."}
         </p>
 
         <form onSubmit={handleSubmit} className="mt-7 space-y-3">

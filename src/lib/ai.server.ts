@@ -40,7 +40,11 @@ async function callGateway(messages: Message[]): Promise<string> {
 }
 
 function extractJson(raw: string): unknown {
-  const trimmed = raw.trim().replace(/^```(?:json)?/i, "").replace(/```$/, "").trim();
+  const trimmed = raw
+    .trim()
+    .replace(/^```(?:json)?/i, "")
+    .replace(/```$/, "")
+    .trim();
   return JSON.parse(trimmed);
 }
 

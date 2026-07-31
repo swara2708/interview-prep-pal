@@ -1,13 +1,28 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
+interface SpeechRecognitionResult {
+  isFinal: boolean;
+  [index: number]: { transcript: string };
+}
+
+interface SpeechRecognitionResultList {
+  length: number;
+  [index: number]: SpeechRecognitionResult;
+}
+
+interface SpeechRecognitionEvent {
+  resultIndex: number;
+  results: SpeechRecognitionResultList;
+}
+
 type SpeechRecognitionLike = {
   continuous: boolean;
   interimResults: boolean;
   lang: string;
   start: () => void;
   stop: () => void;
-  onresult: ((event: any) => void) | null;
-  onerror: ((event: any) => void) | null;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onerror: ((event: Event) => void) | null;
   onend: (() => void) | null;
 };
 
@@ -19,8 +34,9 @@ export function useVoiceInput(onTranscript: (text: string) => void) {
   callbackRef.current = onTranscript;
 
   useEffect(() => {
-    const Ctor =
-      (window as any).SpeechRecognition ?? (window as any).webkitSpeechRecognition ?? null;
+    const win = window as unknown as Record<string, unknown>;
+    const Ctor = (win.SpeechRecognition ?? win.webkitSpeechRecognition ?? null) as
+      (new () => SpeechRecognitionLike) | null;
     if (!Ctor) return;
     setSupported(true);
 
@@ -28,7 +44,7 @@ export function useVoiceInput(onTranscript: (text: string) => void) {
     recognition.continuous = true;
     recognition.interimResults = false;
     recognition.lang = "en-US";
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       let text = "";
       for (let i = event.resultIndex; i < event.results.length; i++) {
         if (event.results[i].isFinal) text += event.results[i][0].transcript;

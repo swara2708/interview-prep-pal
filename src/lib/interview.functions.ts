@@ -2,7 +2,14 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { LEVELS, MODES, type Category, type Feedback, type Level, type Mode } from "./interview-types";
+import {
+  LEVELS,
+  MODES,
+  type Category,
+  type Feedback,
+  type Level,
+  type Mode,
+} from "./interview-types";
 
 export const startSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -53,7 +60,9 @@ export const getSessionDetail = createServerFn({ method: "POST" })
 
     const { data: questions, error: qError } = await context.supabase
       .from("questions")
-      .select("id, question_text, category, order_index, answers(id, answer_text, input_mode, score, feedback_json)")
+      .select(
+        "id, question_text, category, order_index, answers(id, answer_text, input_mode, score, feedback_json)",
+      )
       .eq("session_id", data.sessionId)
       .order("order_index");
     if (qError) throw new Error(qError.message);
@@ -100,7 +109,9 @@ export const submitAnswer = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     if (!question) throw new Error("Question not found.");
 
-    const session = (Array.isArray(question.sessions) ? question.sessions[0] : question.sessions) as {
+    const session = (
+      Array.isArray(question.sessions) ? question.sessions[0] : question.sessions
+    ) as {
       role: string;
       level: string;
     };
@@ -164,7 +175,9 @@ export const listSessions = createServerFn({ method: "POST" })
   .handler(async ({ context }) => {
     const { data, error } = await context.supabase
       .from("sessions")
-      .select("id, role, level, mode, overall_score, completed_at, created_at, questions(id, category, answers(score))")
+      .select(
+        "id, role, level, mode, overall_score, completed_at, created_at, questions(id, category, answers(score))",
+      )
       .order("created_at", { ascending: false })
       .limit(50);
     if (error) throw new Error(error.message);
@@ -226,9 +239,11 @@ export const updateProfile = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data, context }) => {
-    const { error } = await context.supabase
-      .from("profiles")
-      .upsert({ id: context.userId, full_name: data.fullName ?? null, target_role: data.targetRole ?? null });
+    const { error } = await context.supabase.from("profiles").upsert({
+      id: context.userId,
+      full_name: data.fullName ?? null,
+      target_role: data.targetRole ?? null,
+    });
     if (error) throw new Error(error.message);
     return { ok: true };
   });

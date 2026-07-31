@@ -11,7 +11,10 @@ export const Route = createFileRoute("/_authenticated/history")({
   head: () => ({
     meta: [
       { title: "Score history — InterviewAI" },
-      { name: "description", content: "Track your interview scores over time and spot recurring weak areas." },
+      {
+        name: "description",
+        content: "Track your interview scores over time and spot recurring weak areas.",
+      },
       { property: "og:title", content: "Score history — InterviewAI" },
       {
         property: "og:description",
@@ -37,7 +40,9 @@ function HistoryPage() {
   const sessions = data ?? [];
   const completed = sessions.filter((s) => s.overall_score !== null);
   const average = completed.length
-    ? Math.round((completed.reduce((sum, s) => sum + (s.overall_score ?? 0), 0) / completed.length) * 10) / 10
+    ? Math.round(
+        (completed.reduce((sum, s) => sum + (s.overall_score ?? 0), 0) / completed.length) * 10,
+      ) / 10
     : 0;
 
   const categoryTotals: Record<string, { total: number; count: number }> = {};
