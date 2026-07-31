@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { CheckCircle2, Loader2, Mic, MicOff } from "lucide-react";
 import { toast } from "sonner";
 
 import { ScoreRing } from "@/components/score-ring";
+import { useRealtimeSession } from "@/hooks/use-realtime-session";
 import { useVoiceInput } from "@/hooks/use-voice-input";
 import { finishSession, getSessionDetail, submitAnswer } from "@/lib/interview.functions";
 import { categoryLabel, categoryStyles, type Category } from "@/lib/interview-types";
@@ -55,6 +56,12 @@ function SessionPage() {
     queryKey: ["session", sessionId],
     queryFn: () => fetchDetail({ data: { sessionId } }),
   });
+
+  const refetchSession = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ["session", sessionId] });
+  }, [queryClient, sessionId]);
+
+  useRealtimeSession(sessionId, refetchSession);
 
   const voice = useVoiceInput((text) => {
     setInputMode("voice");
