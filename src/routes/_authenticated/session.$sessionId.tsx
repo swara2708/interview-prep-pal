@@ -57,6 +57,12 @@ function SessionPage() {
     queryFn: () => fetchDetail({ data: { sessionId } }),
   });
 
+  const refetchSession = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ["session", sessionId] });
+  }, [queryClient, sessionId]);
+
+  useRealtimeSession(sessionId, refetchSession);
+
   const voice = useVoiceInput((text) => {
     setInputMode("voice");
     setDraft((prev) => (prev ? `${prev} ${text}` : text));

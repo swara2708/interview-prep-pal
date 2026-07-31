@@ -28,8 +28,15 @@ export const Route = createFileRoute("/_authenticated/history")({
 });
 
 function HistoryPage() {
+  const queryClient = useQueryClient();
   const fetchSessions = useServerFn(listSessions);
   const { data, isPending } = useQuery({ queryKey: ["sessions"], queryFn: () => fetchSessions() });
+
+  const refetchSessions = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ["sessions"] });
+  }, [queryClient]);
+
+  useRealtimeSessions(refetchSessions);
 
   if (isPending) {
     return (
