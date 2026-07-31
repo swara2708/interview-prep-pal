@@ -52,6 +52,113 @@ export type Database = {
           },
         ]
       }
+      evaluations: {
+        Row: {
+          category: string
+          created_at: string
+          feedback: string | null
+          id: string
+          score: number | null
+          session_id: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          score?: number | null
+          session_id: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          feedback?: string | null
+          id?: string
+          score?: number | null
+          session_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "evaluations_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      interview_templates: {
+        Row: {
+          categories: string[]
+          created_at: string
+          id: string
+          is_public: boolean
+          level: string
+          mode: string
+          name: string
+          role: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          categories?: string[]
+          created_at?: string
+          id?: string
+          is_public?: boolean
+          level: string
+          mode: string
+          name: string
+          role: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          categories?: string[]
+          created_at?: string
+          id?: string
+          is_public?: boolean
+          level?: string
+          mode?: string
+          name?: string
+          role?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      job_descriptions: {
+        Row: {
+          company: string | null
+          created_at: string
+          description_text: string
+          id: string
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          description_text: string
+          id?: string
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          description_text?: string
+          id?: string
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -108,6 +215,36 @@ export type Database = {
           },
         ]
       }
+      resumes: {
+        Row: {
+          created_at: string
+          file_name: string
+          file_url: string | null
+          id: string
+          parsed_text: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          file_name: string
+          file_url?: string | null
+          id?: string
+          parsed_text?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          file_name?: string
+          file_url?: string | null
+          id?: string
+          parsed_text?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       sessions: {
         Row: {
           completed_at: string | null
@@ -137,6 +274,36 @@ export type Database = {
           mode?: string
           overall_score?: number | null
           role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_settings: {
+        Row: {
+          created_at: string
+          default_level: string | null
+          default_mode: string | null
+          default_role: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          default_level?: string | null
+          default_mode?: string | null
+          default_role?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          default_level?: string | null
+          default_mode?: string | null
+          default_role?: string | null
+          id?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
